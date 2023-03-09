@@ -9,51 +9,78 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class EmailListServlet extends HttpServlet  {
+//@WebServlet(urlPatterns={"/emailList"}, initParams={@InitParam(name="relativePathToFile", value="/WEB-INF/EmailList.txt")})
+public class EmailListServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String url = "/index.html";
-
-        // get current action
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String url = "/index.jsp";
+        String path1 = this.getServletConfig().getInitParameter("relativePathToFile");
+        String path = this.getServletContext().getRealPath(path1);
+//        "/WEB-INF/EmailList.txt"
+        UserDB userDB = new UserDB();
         String action = request.getParameter("action");
         if (action == null) {
             action = "join";  // default action
         }
-        // perform action and set URL to appropriate page
         if (action.equals("join")) {
-            url = "/index.html";    // the "join" page
-        }
-        else if (action.equals("add")) {
-            // get parameters from the request
-            String firstName = request.getParameter("firstName");
+            url = "/index.jsp";    // the "join" page
+        } else if (action.equals("add")) {
+            String emailMessage = "";
+            String firstNameMessage = "";
+            String lastNameMessage = "";
+
+            String firstName = request.getParameter("firtsName");
             String lastName = request.getParameter("lastName");
-            String email = request.getParameter("murach/email");
-            //lấy thêm tham số sở thích âm nhạc
-            String[] listTypeofmusic = request.getParameterValues("listTypeofmusic");
+            String email = request.getParameter("email");
+            if (email == null) {
+                System.out.println("email is null");
+            }
+            else if(email.equals("")){
+                System.out.println("email is not null");
+            }
+            String[] listTypeOfMusic;
+            if (request.getParameterValues("typeOfMusic") != null) {
+                listTypeOfMusic = request.getParameterValues("typeOfMusic");
+            } else {
+                listTypeOfMusic = new String[0];
+            }
 
-            // store data in User object and save User object in db
-            User user = new User(firstName,lastName,email,listTypeofmusic);
-            String path= this.getServletContext().getRealPath("/WEB-INF/EmailList.txt");
-            UserDB.insert(user,path);
+            boolean checkEmailExisted = userDB.emailExisted(email, path);
 
-            // set User object in request object and set URL
-            request.setAttribute("user", user);
-            url = "/thanks.jsp";   // the "thanks" page
+            if (email.isEmpty() || checkEmailExisted || firstName.isEmpty() || lastName.isEmpty()) {
+                if (email.isEmpty()) {
+                    emailMessage = "Please enter a email";
+                } else if (checkEmailExisted) {
+                    emailMessage = "Email is exist, please choose new email";
+                }
+                if (firstName.isEmpty()) {
+                    firstNameMessage = "Please enter a first name";
+                }
+                if (lastName.isEmpty()) {
+                    lastNameMessage = "Please enter a last name";
+                }
+                request.setAttribute("emailMessage", emailMessage);
+                request.setAttribute("firtsNameMessage", firstNameMessage);
+                request.setAttribute("lastNameMessage", lastNameMessage);
+                request.setAttribute("firstName", firstName);
+                request.setAttribute("lastName", lastName);
+                request.setAttribute("email", email);
+                url = "/index.jsp";
+            } else {
+                User user = new User(firstName, lastName, email, listTypeOfMusic);
+                userDB.insert(user, path);
+                request.setAttribute("user", user);
+                url = "/thanks.jsp";
+            }
+
         }
-
         // forward request and response objects to specified URL
-        getServletContext()
-                .getRequestDispatcher(url)
-                .forward(request, response);
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
+
     @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
 }

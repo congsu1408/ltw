@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Murach's Java Servlets and JSP</title>
-  <link rel="stylesheet" href="styles/main.css"/>
+  <title>TODO supply a title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style/main.css">
 </head>
 <body>
+
 <h1>Join our email list</h1>
-<p>To join our email list, enter your name and
-  email address below.</p>
+<p>to join our email list, enter your name and email address below.</p>
 
 <form action="emailList" method="post">
   <input type="hidden" name="action" value="add">
 
-  <label>Email:</label>
-  <input type="email" name="email" required><br>
+  <label for="">Email:</label>
+  <input type="email" name="email" value=${email}><br>
+  <p class='red_text'>${emailMessage}</p>
 
-  <label>First Name:</label>
-  <input type="text" name="firstName" required><br>
+  <label for="">Firts Name:</label>
+  <input type="text" name="firtsName" value=${firstName}><br>
+  <p class='red_text'>${firtsNameMessage}</p>
 
-  <label>Last Name:</label>
-  <input type="text" name="lastName" required><br>
+  <label for="">Last Name:</label>
+  <input type="text" name="lastName" value=${lastName}><br>
+  <p class='red_text'>${lastNameMessage}</p>
 
-  <p>I'm superman</p>
-  <!--  1 hộp chọn đa lựa chọn có các tùy chọn Rock, Country, Bluegrass, và Folk.-->
-  <input type="checkbox" name="music" value="Rock">Rock<br>
-  <input type="checkbox" name="music" value="Country">Country<br>
-  <input type="checkbox" name="music" value="Bluegrass">Bluegrass<br>
-  <input type="checkbox" name="music" value="Folk">Folk<br>
-  <!--  là 1 nút Submit sẽ submit form tới URL tương ứng với servlet EmailListServlet.-->
+  <p>I'm interested in these types of music (need choose)</p>
+  <label for="Rock">Rock</label>
+  <input name="typeOfMusic" id="Rock" type="checkbox" value="Rock">
+  <br/>
+  <label for="Country">Country</label>
+  <input name="typeOfMusic" id="Country" type="checkbox" value="Country">
+  <br/>
+  <label for="Bluegrass">Bluegrass</label>
+  <input name="typeOfMusic" id="Bluegrass" type="checkbox" value="Bluegrass">
+  <br/>
+  <label for="Folk">Folk</label>
+  <input name="typeOfMusic" id="Folk" type="checkbox" value="Folk">
+  <br/>
+
+  <label for="">&nbsp;</label>
   <input type="submit" value="Join Now" id="submit">
 </form>
 </body>

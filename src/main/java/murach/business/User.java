@@ -3,22 +3,20 @@ package murach.business;
 import java.io.Serializable;
 
 public class User implements Serializable {
+
     private String firstName;
     private String lastName;
     private String email;
-    private String[] listTypeofmusic;
+    private String[] listTypeOfMusic;
 
     public User() {
-        firstName = "";
-        lastName = "";
-        email = "";
     }
 
-    public User(String firstName, String lastName, String email, String[] listTypeofmusic) {
+    public User(String firstName, String lastName, String email, String[] listTypeOfMusic) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.listTypeofmusic = listTypeofmusic;
+        this.listTypeOfMusic = listTypeOfMusic;
     }
 
     public String getFirstName() {
@@ -45,11 +43,10 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    //lưu thêm thuộc tính sở thích âm nhạc.
     public String getListTypeOfMusic() {
-        return String.join("<br>", listTypeofmusic);
+        return String.join("<br/>", listTypeOfMusic);
     }
-    public String getListLikeMusic() {
-        return String.join(", ", listTypeofmusic);
+    public String getListLikeMusic(){
+        return String.join(", ", listTypeOfMusic);
     }
 }

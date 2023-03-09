@@ -14,17 +14,13 @@
 <label>Email:</label>
 <span>${user.email}</span><br>
 <label>First Name:</label>
-<span>${user.firstName}</span><br>
+<span>${user.getFirstName()}</span><br>
 <label>Last Name:</label>
 <span>${user.lastName}</span><br>
-
-<%--Liệt kê các lựa chọn của người dùng--%>
 <p>We'll use this email to notify you whenever we have new releases for these types of music:</p>
 <span>${user.getListTypeOfMusic()}</span><br>
 
-<p>To enter another email address, click on the Back
-    button in your browser or the Return button shown
-    below.</p>
+<p>To enter another email address, click on the Back button in your browser or the Return button shown below.</p>
 
 <form action="" method="get">
     <input type="hidden" name="action" value="join">
